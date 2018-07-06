@@ -18,6 +18,9 @@ public:
 	// Answers whether a value is in the list
 	bool find(const int& value) const;
 	void reverse();
+	void makeCircular();
+	bool isCircular();
+	void removeCircularity();
 
 private:
 

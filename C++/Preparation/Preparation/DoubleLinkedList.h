@@ -28,6 +28,10 @@ public:
 	void reverse();
 	void print() const;
 
+	void makeCircular();
+	bool isCircular();
+	void removeCircularity();
+
 private:
 	void putNodeAsFirst(Node* node);
 	void putNodeAsLast(Node* node);

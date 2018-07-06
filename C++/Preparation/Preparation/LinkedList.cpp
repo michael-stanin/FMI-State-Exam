@@ -11,6 +11,10 @@ LinkedList::~LinkedList()
 
 void LinkedList::clear()
 {
+	if (head == nullptr) {
+		return;
+	}
+
 	Node* curr = head;
 	while (head != nullptr)
 	{
@@ -18,6 +22,8 @@ void LinkedList::clear()
 		delete curr;
 		curr = head;
 	}
+
+	head = nullptr;
 	tail = nullptr;
 }
 
@@ -218,6 +224,30 @@ void LinkedList::reverse()
 	}
 	*/
 }
+
+void LinkedList::makeCircular()
+{
+	if (tail != nullptr) {
+		tail->next = head;
+	}
+}
+
+bool LinkedList::isCircular()
+{
+	if (tail != nullptr) {
+		return (tail->next == head);
+	}
+	return false;
+}
+
+void LinkedList::removeCircularity()
+{
+	if (isCircular()) {
+		tail->next = nullptr;
+	}
+}
+
+
 
 LinkedList::Node* LinkedList::nodeAtIndex(const int& index)
 {

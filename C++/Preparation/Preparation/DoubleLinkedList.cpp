@@ -15,6 +15,7 @@ void DoubleLinkedList::clear()
 		delete current;
 		current = nullptr;
 	}
+	head = nullptr;
 }
 
 void DoubleLinkedList::removeFirst()
@@ -254,7 +255,7 @@ void DoubleLinkedList::putNodeAsFirst(Node* node)
 
 void DoubleLinkedList::putNodeAsLast(Node* node)
 {
-	// 3. This is going to be the last node, so its next should be null
+	// 3. This is going to be the lastNode node, so its next should be null
 	node->next = nullptr;
 
 	// 4. If the Linked List is empty, then make the new node as head
@@ -264,15 +265,66 @@ void DoubleLinkedList::putNodeAsLast(Node* node)
 		return;
 	}
 
-	// 5. Else Traverse until the last node
+	// 5. Else Traverse until the lastNode node
 	Node* last = head;
 	while (last->next != nullptr) {
 		last = last->next;
 	}
 
-	// 6. Change the next of the last node
+	// 6. Change the next of the lastNode node
 	last->next = node;
 
-	// 7. Make last node as previous of new node.
+	// 7. Make lastNode node as previous of new node.
 	node->prev = last;
+}
+
+
+void DoubleLinkedList::makeCircular()
+{
+	// Nothing to make circular
+	if (head == nullptr || head->next == nullptr) {
+		return;
+	}
+
+	Node* lastNode = head;
+	while (lastNode) {
+		if (lastNode->next == nullptr) {
+			lastNode->next = head;
+			return;
+		}
+		lastNode = lastNode->next;
+	}
+}
+
+bool DoubleLinkedList::isCircular()
+{
+	// Can't be circular
+	if (head == nullptr || head->next == nullptr) {
+		return false;
+	}
+
+	Node* lastNode = head;
+	while (lastNode) {
+		if (lastNode->next == head) {
+			return true;
+		}
+		lastNode = lastNode->next;
+	}
+	return false;
+}
+
+void DoubleLinkedList::removeCircularity()
+{
+	// Can't be circular
+	if (head == nullptr || head->next == nullptr) {
+		return;
+	}
+
+	Node* lastNode = head;
+	while (lastNode) {
+		if (lastNode->next == head) {
+			lastNode->next = nullptr;
+		}
+		lastNode = lastNode->next;
+	}
 }

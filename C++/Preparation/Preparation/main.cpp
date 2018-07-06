@@ -77,6 +77,18 @@ void testLinkedList()
 	cout << "2 in the list: " << l.find(2) << endl;
 	cout << "3 in the list: " << l.find(3) << endl;
 	cout << "4 in the list: " << l.find(4) << endl;
+
+	cout << "Make the list circular." << endl;
+	l.makeCircular();
+
+	cout << "Is it circular: " << ((l.isCircular()) ? "yes " : "no ") << endl;
+
+	cout << "Make it normal again." << endl;
+	l.removeCircularity();
+	
+	cout << "Is it circular: " << ((l.isCircular()) ? "yes " : "no ") << endl;
+	l.print();
+
 }
 
 void testDoubleLinkedList()
@@ -130,6 +142,20 @@ void testDoubleLinkedList()
 		dList.reverse();
 		dList.print();
 	}
+
+	// Test circularity
+	{
+		cout << "Make the list circular." << endl;
+		dList.makeCircular();
+
+		cout << "Is it circular: " << ((dList.isCircular()) ? "yes " : "no ") << endl;
+
+		cout << "Make it normal again." << endl;
+		dList.removeCircularity();
+		
+		cout << "Is it circular: " << ((dList.isCircular()) ? "yes " : "no ") << endl;
+		dList.print();
+	}
 }
 
 void testSorting()
@@ -168,8 +194,8 @@ int main()
 {	
 	//testStack();
 	//testQueue();
-	//testLinkedList();
-	//testDoubleLinkedList();
-	testSorting();
+	testLinkedList();
+	testDoubleLinkedList();
+	//testSorting();
 	return 0;
 }
