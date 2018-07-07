@@ -14,12 +14,12 @@ void july_2017(char * argv[])
 	char buff[40], c; // -- // --
 	if ((fdi = open("file.txt", O_RDWR)) == -1) // open for read/write - if -1 is returned, file can't be opened - the program finishes
 	{
-		printf("\n Cannot open \n"); exit(1);
+		printf("\n Cannot open file.txt \n"); exit(1);
 	}
 
 	if ((fdo = open(argv[1], O_CREAT | O_TRUNC | O_RDWR, 0666)) == -1) // creates file named with the first argument (ff). clears it if it existed and opens it for read/write
 	{
-		printf("\n Cannot open \n"); exit(1);
+		printf("\n Cannot open first arg as file\n"); exit(1);
 	}
 
 	if (fork() == 0) // In case of the child process
