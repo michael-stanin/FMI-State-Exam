@@ -3,7 +3,7 @@
 #include <fcntl.h>
 
 
-void july_2017()
+void july_2017(char * argv[])
 {
 	/*  *file.txt*		
 		abcdef
@@ -102,5 +102,5 @@ void july_2017()
 
 main(int argc, char * argv[])
 {
-	
+	july_2017(argv);
 }
