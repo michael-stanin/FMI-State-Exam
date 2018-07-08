@@ -192,12 +192,12 @@ void LinkedList::reverse()
 	// Assign the head to the current (last existing element, i.e. the tail from the previous list)
 	head = current;
 
-	// Head should point to the pre-last node
+	// Head should point to the pre-last Node
 	head->next = previous;
 
 	// Another way of reversing is to use temporary Linked List:
 	// 1. Go over each of the current list nodes.
-	// 2. For each node, insert its value at the start of the temporary list
+	// 2. For each Node, insert its value at the start of the temporary list
 	// 3. In the temporary list we will have the reversed order
 	// 4. Use Copy C'tor ...
 

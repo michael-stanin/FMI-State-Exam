@@ -1,8 +1,9 @@
 #include <iostream>
-#include "Stack.h"
-#include "Queue.h"
-#include "LinkedList.h"
+#include "BinaryTree.h"
 #include "DoubleLinkedList.h"
+#include "LinkedList.h"
+#include "Queue.h"
+#include "Stack.h"
 #include "utilities.h"
 
 using namespace std;
@@ -131,7 +132,7 @@ void testDoubleLinkedList()
 		dList.print();
 	}
 
-	// Test Removing of specific node
+	// Test Removing of specific Node
 	{
 		dList.removeNode(42);
 		dList.print();
@@ -190,12 +191,33 @@ void testSorting()
 	}
 }
 
+void testBinaryTree()
+{
+	BinaryTree *tree = new BinaryTree();
+
+	tree->insert(10);
+	tree->insert(6);
+	tree->insert(14);
+	tree->insert(5);
+	tree->insert(8);
+	tree->insert(11);
+	tree->insert(18);
+
+	tree->preorder_print();
+	tree->inorder_print();
+	tree->postorder_print();
+
+	delete tree;
+	tree = nullptr;
+}
+
 int main()
 {	
 	//testStack();
 	//testQueue();
-	testLinkedList();
-	testDoubleLinkedList();
+	//testLinkedList();
+	//testDoubleLinkedList();
 	//testSorting();
+	testBinaryTree();
 	return 0;
 }

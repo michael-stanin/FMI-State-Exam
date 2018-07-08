@@ -52,31 +52,31 @@ void DoubleLinkedList::removeNode(const int& value)
 			head = head->next;
 			head->prev = nullptr;
 
-			// Remove the node
+			// Remove the Node
 			delete current;
 			current = nullptr;
 			return;
 		}
 
-		// Find the node to be removed
+		// Find the Node to be removed
 		bool nodeFound = false;
 		while (current->next != nullptr && !nodeFound) {
 			current = current->next;
 			nodeFound = (current->data == value);
 		}
 
-		// If node is found, current will be the one we need to remove
+		// If Node is found, current will be the one we need to remove
 		if (nodeFound) {
 			Node* nextNode = current->next;
 			Node* prevNode = current->prev;
 
-			// Make the prevNode's next node to be the node after the one we remove
+			// Make the prevNode's next Node to be the Node after the one we remove
 			prevNode->next = nextNode;
 
-			// Make the nextNode's prev node to be the node before the one we remove
+			// Make the nextNode's prev Node to be the Node before the one we remove
 			nextNode->prev = prevNode;
 
-			// Remove the node
+			// Remove the Node
 			delete current;
 			current = nullptr;
 		}
@@ -85,7 +85,7 @@ void DoubleLinkedList::removeNode(const int& value)
 
 void DoubleLinkedList::push(const int& value)
 {
-	// 1. Allocate new node
+	// 1. Allocate new Node
 	Node* newNode = new Node;
 
 	// 2. Fill it in
@@ -103,7 +103,7 @@ void DoubleLinkedList::push(const int& value)
 
 void DoubleLinkedList::append(const int& value)
 {
-	// 1. Allocate new node
+	// 1. Allocate new Node
 	Node* newNode = new Node;
 
 	// 2. Fill it in
@@ -119,13 +119,13 @@ void DoubleLinkedList::insertAtPos(const int& pos, const int& value)
 		return;
 	}
 
-	// 1. Allocate new node
+	// 1. Allocate new Node
 	Node* newNode = new Node;
 
 	// 2. Fill it in
 	newNode->data = value;
 
-	// 3. Place the node at its position
+	// 3. Place the Node at its position
 	if (pos == 0) {
 		putNodeAsFirst(newNode);
 	}
@@ -141,16 +141,16 @@ void DoubleLinkedList::insertAtPos(const int& pos, const int& value)
 			rightNeighbor = rightNeighbor->next;
 		}
 
-		// Make the prev of new node as prev of the right neighbor node
+		// Make the prev of new Node as prev of the right neighbor Node
 		newNode->prev = rightNeighbor->prev;
 
-		// Make the prev of right neighbor node as new node
+		// Make the prev of right neighbor Node as new Node
 		rightNeighbor->prev = newNode;
 
-		// Make right neighbor node the next of new node
+		// Make right neighbor Node the next of new Node
 		newNode->next = rightNeighbor;
 
-		// Change next of new node's prev node
+		// Change next of new Node's prev Node
 		if (newNode->prev != nullptr) {
 			newNode->prev->next = newNode;
 		}
@@ -192,7 +192,7 @@ void DoubleLinkedList::reverse()
 	Node* current = head;
 
 	while (current != nullptr) {
-		// Store the previous node
+		// Store the previous Node
 		temp = current->prev;
 
 		// Reverse the pointers
@@ -244,37 +244,37 @@ void DoubleLinkedList::putNodeAsFirst(Node* node)
 	node->next = head;
 	node->prev = nullptr;
 
-	// 4. Change previous of head to the new node
+	// 4. Change previous of head to the new Node
 	if (head != nullptr) {
 		head->prev = node;
 	}
 
-	// 5. Move the head to point to the new node
+	// 5. Move the head to point to the new Node
 	head = node;
 }
 
 void DoubleLinkedList::putNodeAsLast(Node* node)
 {
-	// 3. This is going to be the lastNode node, so its next should be null
+	// 3. This is going to be the lastNode Node, so its next should be null
 	node->next = nullptr;
 
-	// 4. If the Linked List is empty, then make the new node as head
+	// 4. If the Linked List is empty, then make the new Node as head
 	if (head == nullptr) {
 		node->prev = nullptr;
 		head = node;
 		return;
 	}
 
-	// 5. Else Traverse until the lastNode node
+	// 5. Else Traverse until the lastNode Node
 	Node* last = head;
 	while (last->next != nullptr) {
 		last = last->next;
 	}
 
-	// 6. Change the next of the lastNode node
+	// 6. Change the next of the lastNode Node
 	last->next = node;
 
-	// 7. Make lastNode node as previous of new node.
+	// 7. Make lastNode Node as previous of new Node.
 	node->prev = last;
 }
 
