@@ -451,6 +451,63 @@ namespace topic13
 	}
 }
 
+namespace topic14
+{
+	namespace testingFinalSpec {
+		class Base
+		{
+			virtual void foo();
+		};
+
+		class A : Base
+		{
+			void foo() final; // A::foo() is overriden and its the final override
+			//void bar() final; // error: non-virtual function cannot be overriden or be final
+		};
+
+		class B final : public A
+		{
+			//void foo() override; // Error: foo cannot be overriden because A::foo() is the final override
+		};
+
+		/*class C : public B// Error: cannot be used as Base class, because B is final
+		{
+
+		};*/
+	}
+
+	namespace ctorsAndDtors
+	{
+		class Base
+		{
+		public:
+			Base() { cout << "Base Constructor" << endl; }
+			virtual ~Base() { cout << "Base Destructor" << endl; }
+		};
+
+		class B
+		{
+		public:
+			B() { cout << "B constructor" << endl; }
+			~B() { cout << "B Destructor" << endl; }
+		};
+
+		class A : public Base
+		{
+			B b;
+		public:
+			A() { cout << "A constructor" << endl; }
+			~A() { cout << "A Destructor" << endl; }
+		};
+
+		void test()
+		{
+			A a;
+		}
+	}
+
+}
+
 int main()
 {	
 	//testStack();
@@ -468,6 +525,8 @@ int main()
 
 	//topic13::testPerson();
 	//topic13::testTemplates();
+
+	//topic14::ctorsAndDtors::test();
 
 	return 0;
 }
