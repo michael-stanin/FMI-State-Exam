@@ -211,7 +211,7 @@ void testBinaryTree()
 	tree = nullptr;
 }
 
-namespace tema12{
+namespace topic12{
 	int add(int& left, int& right) { return left + right; }
 	double add(double& left, double& right) { return left + right; }
 
@@ -223,9 +223,9 @@ namespace tema12{
 
 	void testTemplates()
 	{
-		int a = tema12::add(5, 6);//tema12::add<int>(5, 6);
+		int a = topic12::add(5, 6);//tema12::add<int>(5, 6);
 		cout << a << endl;
-		double d = tema12::add(4.2, 7.8);// tema12::add<double>(4.2, 7.8);
+		double d = topic12::add(4.2, 7.8);// tema12::add<double>(4.2, 7.8);
 		cout << d << endl;
 	}
 
@@ -319,6 +319,138 @@ namespace tema12{
 }
 
 
+namespace topic13
+{
+	// Disable the build Error C4996 'strcpy': This function or variable may be unsafe.Consider using strcpy_s instead.
+	#pragma warning (disable : 4996)
+
+	class Person
+	{
+		int age_;
+		char* name_;
+	public:
+		// Default C'tor
+		Person();
+
+		// C'tor with params
+		Person(const int& age, const char* name)
+			: age_(age)
+		{
+			cout << "calling c'tor for " << name << endl;
+			name_ = new char[strlen(name) + 1]; // allocate memory for the string
+			strcpy(name_, name); // copy the input string into the object
+		}
+
+		// Copy C'tor
+		Person(const Person& other)
+		{
+			cout << "calling copy c'tor for other " << other.name_ << endl;
+			name_ = new char[strlen(other.name_) + 1];
+			strcpy(name_, other.name_);
+			age_ = other.age_;
+		}
+		
+		// Assignment operator
+		Person& operator=(const Person& other)
+		{
+			cout << "calling copy assignment for other " << other.name_ << endl;
+			if (this != &other) { // if this is not self-assignment
+				delete[] name_;    // clear the existing string
+				name_ = nullptr;
+				name_ = new char[strlen(other.name_) + 1]; // allocate the required space
+				strcpy(name_, other.name_); // copy it
+				age_ = other.age_;
+			}
+
+			return *this; // return reference to the pointer this of the object
+		}
+
+		// D'tor.
+		~Person();
+
+	private:
+		friend std::ostream& operator<<(std::ostream& os, const Person& person)
+		{
+			os << person.name_ << " " << person.age_ << endl;
+			return os;
+		}
+
+	};
+
+
+	Person::Person()
+	{
+		cout << "calling defaul c'tor " << endl;
+		age_ = 0;
+		name_ = nullptr;
+	}
+
+	Person::~Person()
+	{
+		cout << "calling d'tor for other " << name_ << endl;
+		if (name_ != nullptr) {
+			delete[] name_; // clear the existing string
+			name_ = nullptr;
+		}
+	}
+
+	template<class T>
+	class Foo
+	{
+	public:
+		Foo(const T& data) : data_(data){}
+		T data() const { return data_; }
+
+	private:
+		T data_;
+	};
+
+	template<class T>
+	std::ostream& operator<<(std::ostream& os, const Foo<T>& f)
+	{
+		os << f.data() << endl;
+		return os;
+	}
+
+	template<class T>
+	T diff(const T& left, const T& right)
+	{
+		return left - right;
+	}
+
+	void testTemplates()
+	{
+		Foo<int> a(42);
+		Foo<double> b(42.42);
+		cout << a << endl;
+		cout << b << endl;
+		cout << diff<int>(5, 6) << endl;
+	}
+
+	void testPerson()
+	{
+		Person person1(18, "test"); // calls C'tor Person(const int& age, const char* name)
+		Person person2(person1);  // calls Copy C'tor
+		cout << person1;    // since we predefined operator << we can directly print to the std out our Person object
+		cout << person2;
+
+		int age = 5;
+		Person* pPerson = new Person(age, "Sneji");
+		cout << *pPerson;
+		// clear the memory for the person pointer
+		delete pPerson;
+		pPerson = nullptr;
+
+		Person people[2]; // use default constructor to create the objects
+		people[0] = Person(26, "Tony"); // Creates Person using the C'tor Person(const int& age, const char* name). Then uses operator= to assign the created object to people[0]
+		cout << people[0];
+		people[1] = Person(26, "Stark"); // The same as above but for people[1]
+		cout << people[1];
+
+		return; // calls destructor for objects of people, person1 and person2
+	}
+}
+
 int main()
 {	
 	//testStack();
@@ -328,11 +460,14 @@ int main()
 	//testSorting();
 	//testBinaryTree();
 
-	//tema12::testPointers();
-	//tema12::testTemplates();
-	//tema12::testGlobals();
-	//tema12::testGLobals2();
-	//tema12::print(3);
+	//topic12::testPointers();
+	//topic12::testTemplates();
+	//topic12::testGlobals();
+	//topic12::testGLobals2();
+	//topic12::print(3);
+
+	//topic13::testPerson();
+	//topic13::testTemplates();
 
 	return 0;
 }
