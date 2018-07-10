@@ -167,6 +167,7 @@ DoubleLinkedList::Node* DoubleLinkedList::findNode(const int& value)
 		}
 		current = current->next;
 	}
+	return nullptr;
 }
 
 int DoubleLinkedList::size() const
