@@ -211,6 +211,114 @@ void testBinaryTree()
 	tree = nullptr;
 }
 
+namespace tema12{
+	int add(int& left, int& right) { return left + right; }
+	double add(double& left, double& right) { return left + right; }
+
+	template<class T>
+	T add(const T& left, const T& right)
+	{
+		return left + right;
+	}
+
+	void testTemplates()
+	{
+		int a = tema12::add(5, 6);//tema12::add<int>(5, 6);
+		cout << a << endl;
+		double d = tema12::add(4.2, 7.8);// tema12::add<double>(4.2, 7.8);
+		cout << d << endl;
+	}
+
+	void testParams(const int& constIntRef, int* pInt, double myDouble, int defInt = 42)
+	{
+		//constIntRef++;
+
+		pInt++;
+		int mint = *pInt;
+		pInt = nullptr;
+
+		myDouble -= 0.42;
+
+		cout << defInt << endl;
+	}
+
+	void testPointers()
+	{
+		/*
+		{
+		int a = 5;
+		int* p = &a;
+		cout << p << endl;
+		(*p)++;
+		cout << a << endl;
+
+		p++;
+		cout << p << endl;
+		a += 2;
+		p--;
+		cout << *p << endl;
+		}
+		*/
+
+		/*
+		{
+		int arr[] = { 1, 2 ,3 };
+		int* parr = arr;
+		cout << ++(*(++parr)) << endl;
+		parr = arr;
+		for (int i = 0; i < 3; i++) {
+		cout << *(parr+i) << endl;
+		}
+		}
+		*/
+
+		
+		{
+			int arr[2][3] = { {1, 2 ,3}, {4, 5, 6} };
+			int (*parr)[2][3] = &arr;
+			int* pparr0 = *parr[0];
+			for (int j = 0; j < 3; j++) {
+				cout << (*pparr0+j) << endl;
+			}
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 3; j++) {
+					cout << (*parr)[i][j] << endl;
+				}
+			}
+		}
+		
+
+	}
+
+	int myInt = 42;
+	void testGlobals()
+	{
+		cout << myInt << endl;
+		
+		myInt += 7;
+		cout << myInt << endl;
+
+		int myInt = 7;
+		cout << myInt << endl;
+	}
+
+	void testGLobals2()
+	{
+		cout << myInt << endl;
+	}
+
+	void print(int test)
+	{
+		if (test < 1) {
+			return;
+		}
+		cout << test << endl;
+		print(test - 1);
+		return;
+	}
+}
+
+
 int main()
 {	
 	//testStack();
@@ -218,6 +326,13 @@ int main()
 	//testLinkedList();
 	//testDoubleLinkedList();
 	//testSorting();
-	testBinaryTree();
+	//testBinaryTree();
+
+	//tema12::testPointers();
+	//tema12::testTemplates();
+	//tema12::testGlobals();
+	//tema12::testGLobals2();
+	//tema12::print(3);
+
 	return 0;
 }
