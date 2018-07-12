@@ -318,7 +318,6 @@ namespace topic12{
 	}
 }
 
-
 namespace topic13
 {
 	// Disable the build Error C4996 'strcpy': This function or variable may be unsafe.Consider using strcpy_s instead.
@@ -508,6 +507,148 @@ namespace topic14
 
 }
 
+namespace July2017
+{
+	
+
+	// TODO: this method does not take into consideration the limits of the matrix, i.e. it can go OUT OF BOUNDS.
+	bool badTerrain(char** terrain, int i, int j, int m, int n)
+	{
+		int numberOfAdjacent4s = 0;
+		
+		if ((i - 1 > 0 && j - 1 > 0) && terrain[i - 1][j - 1] == '4') {
+			numberOfAdjacent4s += 1;
+		}
+		if ((i - 1 > 0) && terrain[i - 1][j] == '4') {
+			numberOfAdjacent4s += 1;
+		}
+		if ((i - 1 > 0 && j + 1 < n) && terrain[i - 1][j + 1] == '4') {
+			numberOfAdjacent4s += 1;
+		}
+		if ((j - 1 > 0) && terrain[i][j - 1] == '4') {
+			numberOfAdjacent4s += 1;
+		}
+		if ((j + 1 < n) && terrain[i][j + 1] == '4') {
+			numberOfAdjacent4s += 1;
+		}
+		if ((i + 1 < m && j - 1 > 0) && terrain[i + 1][j - 1] == '4') {
+			numberOfAdjacent4s += 1;
+		}
+		if ((i + 1 < m) && terrain[i + 1][j] == '4') {
+			numberOfAdjacent4s += 1;
+		}
+		if ((i + 1 < m && j + 1 < n) && terrain[i + 1][j + 1] == '4') {
+			numberOfAdjacent4s += 1;
+		}
+
+		return numberOfAdjacent4s >= 3;
+	}
+
+	void evolveTerrain(char** terrain, int m, int n)
+	{
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				char c = terrain[i][j];
+				int nc = (int)c;
+				switch (c)
+				{
+				case 'R':
+				case 'S':
+					break;
+				case '1':
+				case '2':
+				case '3':
+					nc++;
+					break;
+				case '4':
+					if (badTerrain(terrain, i, j, m, n)) {
+						nc--;
+					}
+				default:
+					break;
+				}
+				terrain[i][j] = (char)nc;
+			}
+		}
+	}
+
+	void simulate(char** terrain, int m, int n, int years)
+	{
+		cout << "Initial environment:" << endl;
+		printMatrix(terrain, m, n);
+		cout << endl;
+
+		while (years / 10) {
+			cout << "Environment after 10 years: " << endl;
+			evolveTerrain(terrain, m, n);
+			printMatrix(terrain, m, n);
+			cout << endl;
+			years -= 10;
+		}
+	}
+
+	void initTerrain(char** terrain, int m, int n)
+	{
+		terrain[0][0] = 'R';
+		terrain[0][1] = 'R';
+		terrain[0][2] = '1';
+		terrain[0][3] = '1';
+		terrain[0][4] = '2';
+		terrain[0][5] = '2';
+
+		terrain[1][0] = '1';
+		terrain[1][1] = 'R';
+		terrain[1][2] = 'R';
+		terrain[1][3] = 'R';
+		terrain[1][4] = '1';
+		terrain[1][5] = '2';
+
+		terrain[2][0] = 'S';
+		terrain[2][1] = '1';
+		terrain[2][2] = 'R';
+		terrain[2][3] = 'R';
+		terrain[2][4] = '2';
+		terrain[2][5] = '3';
+
+		terrain[3][0] = '4';
+		terrain[3][1] = '4';
+		terrain[3][2] = 'S';
+		terrain[3][3] = 'S';
+		terrain[3][4] = 'R';
+		terrain[3][5] = 'R';
+
+		// TODO comment out the above and uncomment below when needs be testing.
+		/*char c;
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				cout << "Enter terrain value for [" << i << "][" << j << "]: ";
+				cin >> c;
+				terrain[i][j] = c;
+			}
+		}*/
+	}
+
+	void testTask1()
+	{
+		const int N = 100;
+		const int M = 100;
+		// TODO comment out the above and uncomment below when needs be testing.
+		/*int M, N;
+		cin >> M;
+		cin >> N;*/
+		char** terrain;
+		terrain = new char*[M];
+		for (int i = 0; i < M; i++) {
+			terrain[i] = new char[N];
+		}
+		
+		initTerrain(terrain, M, N);
+
+		//simulate(terrain, M, N, 100);
+		simulate(terrain, 4, 6, 100);
+	}
+}
+
 int main()
 {	
 	//testStack();
@@ -527,6 +668,8 @@ int main()
 	//topic13::testTemplates();
 
 	//topic14::ctorsAndDtors::test();
+	
+	July2017::testTask1();
 
 	return 0;
 }

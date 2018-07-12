@@ -31,6 +31,17 @@ void printArr(T(&arr)[N])
 	cout << endl;
 }
 
+template<class T>
+void printMatrix(T** matrix, int m, int n)
+{
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			cout << matrix[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+}
 // Merges the two halves arr[left..mid] and arr[mid+1..right] of arr[]
 void merge(int arr[], const int& left, const int& right, const int& mid)
 {
