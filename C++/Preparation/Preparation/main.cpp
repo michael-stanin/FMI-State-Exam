@@ -1,4 +1,7 @@
+#include <algorithm>
+#include <fstream>
 #include <iostream>
+#include <vector>
 #include "BinaryTree.h"
 #include "DoubleLinkedList.h"
 #include "LinkedList.h"
@@ -699,6 +702,65 @@ namespace July2017
 	}
 }
 
+namespace July2016
+{
+	namespace task1
+	{
+		void testTask1()
+		{
+			// It is basically like July 2017 task 1, but instead of checking all of the values of the "adjacent" elements of a[i][j]
+			// We need to check the elements in the symmetric group of a[i][j] and change its value to their average...
+		}
+	}
+
+	namespace task2
+	{
+		struct Tree {
+			Tree(int _data = 0) : data(_data) {}
+
+			int data;
+			std::vector<July2016::task2::Tree> subtrees;
+		};
+
+		Tree parseTree(std::istream& is) {
+			char c;
+			Tree t;
+			//   '('  <digit>   '('  ')'? '('
+			is >> c >> t.data >> c >> c;
+			if (c == '(')
+				is.putback(c);
+			while (c == '(' || c == ',') {
+				// there are more descendants
+				//t.subtrees.push_back(parseTree(is));
+				t.subtrees.push_back(parseTree(is));
+				is >> c;
+			}
+			is >> c;
+			return t;
+		}
+
+		Tree readTree(std::string fileName) {
+			std::ifstream fi(fileName);
+			return parseTree(fi);
+		}
+
+		int maxSum(Tree t) {
+			if (t.subtrees.empty())
+				return t.data;
+			int m = maxSum(t.subtrees[0]);
+			for (Tree st : t.subtrees)
+				m = std::max(m, maxSum(st));
+			return t.data + m;
+		}
+
+		void testTask2()
+		{
+			std::cout << maxSum(readTree("July2016SampleTree.txt")) << '\n';
+		}
+	}
+}
+
+
 int main()
 {	
 	//testStack();
@@ -720,7 +782,10 @@ int main()
 	//topic14::ctorsAndDtors::test();
 	
 	//July2017::task1::testTask1();
-	July2017::task2::testTask2();
+	//July2017::task2::testTask2();
+	
+	//July2016::task1::testTask1();
+	//July2016::task2::testTask2();
 
 	return 0;
 }
