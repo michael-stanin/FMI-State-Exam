@@ -1,4 +1,4 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -760,6 +760,68 @@ namespace July2016
 	}
 }
 
+namespace September2016
+{
+	namespace task1
+	{
+		/*
+		Задача 1 . Задачата да се реши с използване на език за процедурно или обектно-ориентирано
+		програмиране (C, C++ или Java).
+		Да се състави функция, която приема като параметър низ с произволна дължина и връща като
+		резултат позициите на двойката еднакви символи, които са максимално отдалечени един от друг.
+		Ако в низа съществуват няколко двойки максимално отдалечени символи, функцията да връща
+		позициите на най-ляво разположената двойка. Счита се, че номерата на позициите започват от 0.
+		Пример:
+		В символния низ "this is just a simple example" най-ляво и най-дясно разположените
+		символи ‘ ‘ (интервали) , са на позиции съответно 4 и 21, намират се на разстояние 17 символа един
+		от друг и няма друга двойка еднакви символи, които са на по-голямо разстояние един от друг.
+		*/
+
+
+		void solve(char* testString, int strSize, int& start, int& end)
+		{
+			if (testString == nullptr) {
+				return;
+			}
+
+			int max = 0;
+			char* pString = testString;
+			for (int i = 0; i < strSize; i++) {
+				char currentChar = testString[i];
+				for (int j = i + 1; j < strSize; j++) {
+					if (currentChar == pString[j]) {
+						if ((j - i) > max) {
+							start = i;
+							end = j;
+							max = ((j - i) > max) ? (j - i) : max;
+						}
+					}
+				}
+			}
+		}
+
+		void testTask1()
+		{
+			char* testString = "this is just a simple example";
+			static const int strSize = 29;
+			int start = 0;
+			int end = 0;
+			solve(testString, strSize, start, end);
+			if (start != end) {
+				cout << "The start and end position of the pair of the same symbols: " << start << " : " << end << endl;
+				cout << "Length is: " << end - start << endl;
+			}
+			else {
+				cout << "There are no pairs of symbols in the given string." << endl;
+			}
+		}
+	}
+	
+	namespace task2
+	{
+		
+	}
+}
 
 int main()
 {	
@@ -786,6 +848,9 @@ int main()
 	
 	//July2016::task1::testTask1();
 	//July2016::task2::testTask2();
+
+	September2016::task1::testTask1();
+	September2016::task2::testTask2();
 
 	return 0;
 }
