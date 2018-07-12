@@ -31,6 +31,16 @@ void printArr(T(&arr)[N])
 	cout << endl;
 }
 
+
+template<class T>
+void printPArr(T *arr, int N)
+{
+	for (int i = 0; i < N; i++) {
+		std::cout << arr[i] << " ";
+	}
+	cout << endl;
+}
+
 template<class T>
 void printMatrix(T** matrix, int m, int n)
 {
@@ -43,7 +53,7 @@ void printMatrix(T** matrix, int m, int n)
 
 }
 // Merges the two halves arr[left..mid] and arr[mid+1..right] of arr[]
-void merge(int arr[], const int& left, const int& right, const int& mid)
+void merge(int* arr, const int& left, const int& right, const int& mid)
 {
 	int i, j, k;
 	const int n1 = mid - left + 1;
@@ -93,7 +103,7 @@ void merge(int arr[], const int& left, const int& right, const int& mid)
 	R = nullptr;
 }
 
-void mergeSort(int arr[], int left, int right)
+void mergeSort(int* arr, int left, int right)
 {
 	if (left < right) {
 		// Find the middle point to divide the array into two halves
