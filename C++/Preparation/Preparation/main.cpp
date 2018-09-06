@@ -1064,7 +1064,7 @@ namespace September2015
 			void testD()
 			{
 				int i = 6 | 11;
-				bool b = 6 | 11;
+				bool b = bool(6 | 11);
 				cout << i << endl;
 				cout << b << endl;
 			}
@@ -1165,6 +1165,78 @@ namespace September2015
 
 }
 
+namespace July2015
+{
+	namespace task1
+	{
+		float calculateOutputValue(int i, int j, float** source, int m, int n)
+		{
+			int lowYBound = i * 2;
+			int highYBound = i * 2 + 1;
+
+			int lowXBound = j * 2;
+			int highXBound = j * 2 + 1;
+
+			float total = 0;
+			int occurrences = 0;
+			for (int sourceJ = lowYBound; sourceJ <= highYBound && sourceJ < m; ++sourceJ) {
+				for (int sourceI = lowXBound; sourceI <= highXBound && sourceI < n; ++sourceI) {
+					total += source[sourceJ][sourceI];
+					occurrences++;
+				}
+			}
+
+			return (float)total / occurrences;
+		}
+
+		void convertMatrix(float** source, int m, int n, float** dest, int k, int l)
+		{
+			for (int i = 0; i < k; ++i) {
+				for (int j = 0; j < l; ++j) {
+					float value = calculateOutputValue(i, j, source, m, n);
+					dest[i][j] = value;
+				}
+			}
+		}
+
+		void testTask1()
+		{
+			float** img = new float*[2];
+			for (int i = 0; i < 2; ++i) {
+				img[i] = new float[3];
+			}
+
+			img[0][0] = 1.0;
+			img[0][1] = 2.0;
+			img[0][2] = 3.0;
+			img[1][0] = 4.5;
+			img[1][1] = 6.5;
+			img[1][2] = 7.5;
+
+			cout << "Input matrix: " << endl;
+			printMatrix(img, 2, 3);
+
+			cout << endl;
+			float** s = new float*[1];
+			for (int i = 0; i < 1; ++i) {
+				s[i] = new float[2];
+			}
+
+			convertMatrix(img, 2, 3, s, 1, 2);
+
+
+			cout << "Output matrix: " << endl;
+			printMatrix(s, 1, 2);
+		}
+	}
+
+	namespace task2
+	{
+		void testTask2()
+		{
+		}
+	}
+}
 int main()
 {	
 	//testStack();
@@ -1192,13 +1264,16 @@ int main()
 	//July2016::task2::testTask2();
 
 	//September2016::task1::testTask1();
-	September2016::task2::testTask2();
+	//September2016::task2::testTask2();
 
 	//September2015::task1::A::testA();
 	//September2015::task1::B::testB();
 	//September2015::task1::C::testC();
 	//September2015::task1::D::testD();
 	//September2015::task2::testTask2();
+
+	July2015::task1::testTask1();
+
 
 	return 0;
 }
