@@ -1079,6 +1079,21 @@ namespace September2015
 				cout << result << endl;
 			}
 		}
+
+		namespace D
+		{
+			/*
+			Каква е стойността на израза 6 | 11
+			*/
+
+			void testD()
+			{
+				int i = 6 | 11;
+				bool b = 6 | 11;
+				cout << i << endl;
+				cout << b << endl;
+			}
+		}
 	}
 	
 	namespace task2
@@ -1119,7 +1134,8 @@ int main()
 
 	//September2015::task1::A::testA();
 	//September2015::task1::B::testB();
-	September2015::task1::C::testC();
+	//September2015::task1::C::testC();
+	September2015::task1::D::testD();
 
 	return 0;
 }
