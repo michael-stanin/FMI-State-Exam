@@ -988,6 +988,23 @@ namespace September2015
 					cout << "Is " << negativeTest << " member of the array: " << (member(negativeTest, arr, 14) ? "yes" : "no") << endl;
 			}
 		}
+
+		namespace C
+		{
+			/*
+			Каква ще бъде стойността на променливата result след изпълнение на следния програмен
+			фрагмент
+			*/
+			void testC()
+			{
+				int a = 0; int b = 15; int result = 1;
+				if (b < 10 && b / a < 10)
+					result = 0;
+				else
+					result = 1;
+				cout << result << endl;
+			}
+		}
 	}
 	
 	namespace task2
@@ -1027,7 +1044,8 @@ int main()
 	//September2016::task2::testTask2();
 
 	//September2015::task1::A::testA();
-	September2015::task1::B::testB();
+	//September2015::task1::B::testB();
+	September2015::task1::C::testC();
 
 	return 0;
 }
