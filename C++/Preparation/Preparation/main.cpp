@@ -1098,7 +1098,102 @@ namespace September2015
 	
 	namespace task2
 	{
+		/*
+		Следната задача да се реши на един от езиците за програмиране C++ или
+		Java. Да се обозначи явно на кой от двата езика е решавана задачата. При решението на
+		задачата да не се използват библиотеки за работа със структури от данни.
+		а) Да се дефинира подходяща структура от данни, позволяваща представянето в паметта на
+		програмата на ориентиран граф от типа G=<V,E> , където V е множеството на целите
+		положителни числа, не поголеми
+		от 1000 (представено чрез типа данни int) , а E=V×V .
+		б) За така дефинираната структура от данни да се дефинира функция (или статичен метод)
+		[булев тип] isConnected ([подходящ тип] g)
+		чиято стойност е истина точно за тези графи g , които са свързани. За един граф G=<V,Е>
+		казваме, че е свързан, ако за всяка двойка u∈V, v∈V има път от u до v или от v до u . На
+		примера са показани два графа, първият от които е свързан, а вторият – не.
+		*/
 
+		class Graph
+		{
+			int numberOfVerticies;
+
+			int** adjacents;
+
+		public:
+			Graph(int n) : numberOfVerticies(n)
+			{
+				adjacents = new int* [numberOfVerticies];
+				for (int i = 0; i < numberOfVerticies; ++i)
+					adjacents[i] = new int[numberOfVerticies];
+
+				for (int i = 0; i < numberOfVerticies; ++i)
+					for (int j = 0; j < numberOfVerticies; ++j)
+						adjacents[i][j] = 0;
+			}
+
+			void addEdge(int v, int w)
+			{
+				adjacents[v - 1][w - 1] = 1;
+			}
+
+			bool isConnected()
+			{
+				printMatrix(adjacents, numberOfVerticies, numberOfVerticies);
+
+				int i = 0, j = 1;
+				bool isGraphConnected = true;
+				while (isGraphConnected && i < numberOfVerticies && j < numberOfVerticies) {
+					isGraphConnected = adjacents[i][j];
+					i++;
+					j++;
+				}
+
+				// If not connected, check the other way around
+				if (!isGraphConnected) {
+					isGraphConnected = true;
+					i = 1;
+					j = 0;
+					while (isGraphConnected && i < numberOfVerticies && j < numberOfVerticies) {
+						isGraphConnected = adjacents[i][j];
+						i++;
+						j++;
+					}
+				}
+
+				return isGraphConnected;
+			}
+		};
+
+		void testGraph1()
+		{
+			Graph g(3);
+			g.addEdge(3, 2);
+			g.addEdge(2, 1);
+			cout << "Graph is: " << (g.isConnected() ? "connected" : "not connected") << endl;
+		}
+
+		void testGraph2()
+		{
+			Graph g(3);
+			g.addEdge(2, 1);
+			g.addEdge(2, 3);
+			cout << "Graph is: " << (g.isConnected() ? "connected" : "not connected") << endl;
+		}
+		
+		void testGraph3()
+		{
+			Graph g(3);
+			g.addEdge(1, 2);
+			g.addEdge(2, 3);
+			cout << "Graph is: " << (g.isConnected() ? "connected" : "not connected") << endl;
+		}
+
+		void testTask2()
+		{
+			testGraph1();
+			testGraph2();
+			testGraph3();
+		}
 	}
 
 }
@@ -1135,7 +1230,8 @@ int main()
 	//September2015::task1::A::testA();
 	//September2015::task1::B::testB();
 	//September2015::task1::C::testC();
-	September2015::task1::D::testD();
+	//September2015::task1::D::testD();
+	September2015::task2::testTask2();
 
 	return 0;
 }
