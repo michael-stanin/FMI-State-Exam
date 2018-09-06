@@ -9,6 +9,7 @@
 #include "Stack.h"
 #include "utilities.h"
 #include <string>
+#include <queue>
 
 using namespace std;
 
@@ -835,104 +836,78 @@ namespace September2016
 			дълбочина.Конкретното представяне на дървото в паметта е по Ваш избор.
 			Пример: За A = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } и K = 3, минималната дълбочина е 3
 		*/
-		/*
+		
 		struct Node
 		{
 			Node(const int& data) : data_(data) {}
 			Node() = default;
 			int data_;
-			vector<Node*> subNodes_;
+			vector<Node*> children_;
 		};
 
-		Node* createTree(int arr[],int k, int n)
+		Node* buildTree(int arr[],int k, int n)
 		{
-			Node* created[n];
-			for (int i = 0; i < n; ++i) {
-				created[i] = nullptr;
+			if (n < 1) {
+				return nullptr;
 			}
 
-			Node* root = nullptr;
-			root = new Node;
-			root->data_ = arr[0];
-			if (k < n) {
-				for (int i = 1; i < k+1; ++i) {
-					
+			Node* root = new Node(*arr);
+			arr++;
+			n--;
+
+			queue<Node*> queue;
+			queue.push(root);
+
+			while (!queue.empty() && n > 0) {
+				Node* current = queue.front();
+				queue.pop();
+				cout << "Current element is: " << current->data_ << endl;
+
+				int childIndex = 0;
+				while (childIndex < k && (n-- > 0)) {
+					Node* child = new Node(*arr);
+
+					current->children_.push_back(child);
+					queue.push(child);
+
+					cout << "Adding child to: " << current->data_ << " with value: " << *arr << endl;
+
+					arr++;
+					childIndex++;
 				}
 			}
+
 			return root;
 		}
-*/
-
-		struct Tree
+		
+		void dummyPrintTree(Node* root)
 		{
-			Tree(const int& data = 0) : data_(data) {}
-
-			int data_;
-			std::vector<Tree> children_;
-		};
-
-		void dummyPrintTree(Tree& root)
-		{
-			cout << std::to_string(root.data_) << " ";
-			for (auto child : root.children_) {
+			cout << std::to_string(root->data_) << " ";
+			for (auto child : root->children_) {
 				dummyPrintTree(child);
 			}
 		}
 
-		int calculateDepth(Tree& root)
+		int calculateDepth(Node* root)
 		{
-			if (root.children_.empty())
+			if (root->children_.empty())
 				return 1;
-			int m = calculateDepth(root.children_[0]);
-			for (auto child : root.children_)
+			int m = calculateDepth(root->children_[0]);
+			for (auto child : root->children_)
 				m = std::max(m, calculateDepth(child));
 			return 1 + m;
 		}
 
-		void buildDescendants(Tree& t, int k, vector<int>& vals)
-		{
-			while (k-- && !vals.empty()) {
-				Tree child(vals[0]);
-				vals.erase(vals.begin());
-				t.children_.push_back(child);
-			}
-		}
-
-		Tree solution(int k, vector<int>& vals)
-		{
-			Tree tree(vals[0]);
-			vals.erase(vals.begin());
-
-			buildDescendants(tree, k, vals);
-			size_t i = 0;
-			const size_t numChildren = tree.children_.size();
-			while (!vals.empty() && i < numChildren) {
-				buildDescendants(tree.children_[i], k, vals);
-				i++;
-			}
-
-			return tree;
-		}
-
-		// Working only for the given example. The numbers after the 13th will be neglected...
-		// I.e if we receive input of { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 } solution will build a tree with values up to 13.
 		int solution(int k, int* arr, int size)
 		{
-			// Transform the data
-			vector<int> vals;
-			vals.reserve(size);
-			for (int i = 0; i < size; ++i) {
-				vals.push_back(arr[i]);
-			}
+			//cout << endl;
+			printPArr(arr, size);
+			Node* root = buildTree(arr, k, size);
 
-			Tree tree = solution(k, vals);
-
-			// Calculate the depth of the tree
-			int depth = calculateDepth(tree);
-
-			// Dummy print the tree
-			dummyPrintTree(tree);
+			dummyPrintTree(root);
 			cout << endl;
+
+			int depth = calculateDepth(root);
 			return depth;
 		}
 
@@ -1217,13 +1192,13 @@ int main()
 	//July2016::task2::testTask2();
 
 	//September2016::task1::testTask1();
-	//September2016::task2::testTask2();
+	September2016::task2::testTask2();
 
 	//September2015::task1::A::testA();
 	//September2015::task1::B::testB();
 	//September2015::task1::C::testC();
 	//September2015::task1::D::testD();
-	September2015::task2::testTask2();
+	//September2015::task2::testTask2();
 
 	return 0;
 }
