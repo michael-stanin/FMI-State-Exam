@@ -1141,23 +1141,15 @@ namespace September2015
 				printMatrix(adjacents, numberOfVerticies, numberOfVerticies);
 
 				int i = 0, j = 1;
+				if (!adjacents[i][j] && adjacents[j][i]) {// If not connected, check the other way around
+					i = 1;
+					j = 0;
+				}
 				bool isGraphConnected = true;
 				while (isGraphConnected && i < numberOfVerticies && j < numberOfVerticies) {
 					isGraphConnected = adjacents[i][j];
 					i++;
 					j++;
-				}
-
-				// If not connected, check the other way around
-				if (!isGraphConnected) {
-					isGraphConnected = true;
-					i = 1;
-					j = 0;
-					while (isGraphConnected && i < numberOfVerticies && j < numberOfVerticies) {
-						isGraphConnected = adjacents[i][j];
-						i++;
-						j++;
-					}
 				}
 
 				return isGraphConnected;
