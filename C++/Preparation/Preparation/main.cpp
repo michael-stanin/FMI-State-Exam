@@ -1026,7 +1026,8 @@ int main()
 	//September2016::task1::testTask1();
 	//September2016::task2::testTask2();
 
-	September2015::task1::A::testA();
+	//September2015::task1::A::testA();
+	September2015::task1::B::testB();
 
 	return 0;
 }
