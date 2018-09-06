@@ -8,6 +8,7 @@
 #include "Queue.h"
 #include "Stack.h"
 #include "utilities.h"
+#include <string>
 
 using namespace std;
 
@@ -819,7 +820,129 @@ namespace September2016
 	
 	namespace task2
 	{
-		
+		/*
+		Задача 2.Задачата да се реши с използване на език за процедурно или обектно - ориентирано
+			програмиране(C, C++ или Java).
+			Да се напише функция, която получава като параметри цяло число K и едномерен масив A с елементи
+			различни цели числа.Функцията трябва да построи в паметта дърво T, съдържащо данните в масива
+			A, като дървото T трябва да удовлетворява следните условия :
+		1. Всеки елемент на A се среща като възел в T точно веднъж.
+			2. Всеки възел в T има най - много K преки наследници(деца).
+			3. T е с възможно най - малка дълбочина.
+			4. Ако i < j, то A[i] да не се намира по - дълбоко от A[j] в T(т.е.да е на същата или по - малка
+				дълбочина).
+			Като резултат функцията да връща построеното дърво и да извежда на стандартния изход неговата
+			дълбочина.Конкретното представяне на дървото в паметта е по Ваш избор.
+			Пример: За A = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } и K = 3, минималната дълбочина е 3
+		*/
+		/*
+		struct Node
+		{
+			Node(const int& data) : data_(data) {}
+			Node() = default;
+			int data_;
+			vector<Node*> subNodes_;
+		};
+
+		Node* createTree(int arr[],int k, int n)
+		{
+			Node* created[n];
+			for (int i = 0; i < n; ++i) {
+				created[i] = nullptr;
+			}
+
+			Node* root = nullptr;
+			root = new Node;
+			root->data_ = arr[0];
+			if (k < n) {
+				for (int i = 1; i < k+1; ++i) {
+					
+				}
+			}
+			return root;
+		}
+*/
+
+		struct Tree
+		{
+			Tree(const int& data = 0) : data_(data) {}
+
+			int data_;
+			std::vector<Tree> children_;
+		};
+
+		void dummyPrintTree(Tree& root)
+		{
+			cout << std::to_string(root.data_) << " ";
+			for (auto child : root.children_) {
+				dummyPrintTree(child);
+			}
+		}
+
+		int calculateDepth(Tree& root)
+		{
+			if (root.children_.empty())
+				return 1;
+			int m = calculateDepth(root.children_[0]);
+			for (auto child : root.children_)
+				m = std::max(m, calculateDepth(child));
+			return 1 + m;
+		}
+
+		void buildDescendants(Tree& t, int k, vector<int>& vals)
+		{
+			while (k-- && !vals.empty()) {
+				Tree child(vals[0]);
+				vals.erase(vals.begin());
+				t.children_.push_back(child);
+			}
+		}
+
+		Tree solution(int k, vector<int>& vals)
+		{
+			Tree tree(vals[0]);
+			vals.erase(vals.begin());
+
+			buildDescendants(tree, k, vals);
+			size_t i = 0;
+			const size_t numChildren = tree.children_.size();
+			while (!vals.empty() && i < numChildren) {
+				buildDescendants(tree.children_[i], k, vals);
+				i++;
+			}
+
+			return tree;
+		}
+
+		// Working only for the given example. The numbers after the 13th will be neglected...
+		// I.e if we receive input of { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 } solution will build a tree with values up to 13.
+		int solution(int k, int* arr, int size)
+		{
+			// Transform the data
+			vector<int> vals;
+			vals.reserve(size);
+			for (int i = 0; i < size; ++i) {
+				vals.push_back(arr[i]);
+			}
+
+			Tree tree = solution(k, vals);
+
+			// Calculate the depth of the tree
+			int depth = calculateDepth(tree);
+
+			// Dummy print the tree
+			dummyPrintTree(tree);
+			cout << endl;
+			return depth;
+		}
+
+		void testTask2()
+		{
+			int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+			int k = 3;
+			int size = 14;
+			cout << "The three is with depth: " << solution(k, arr, size) << endl;
+		}
 	}
 }
 
@@ -849,7 +972,7 @@ int main()
 	//July2016::task1::testTask1();
 	//July2016::task2::testTask2();
 
-	September2016::task1::testTask1();
+	//September2016::task1::testTask1();
 	September2016::task2::testTask2();
 
 	return 0;
