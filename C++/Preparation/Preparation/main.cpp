@@ -946,6 +946,57 @@ namespace September2016
 	}
 }
 
+namespace September2015
+{
+	namespace task1
+	{
+		namespace A
+		{
+			/*
+			A) Следните програмни фрагменти са съответно от булева функция на C++ и статичен булев
+			метод на Java, проверяващи дали в даден масив a от цели числа, подредени в нарастващ ред, се
+			съдържа числото x . Функцията/методът прилагат алгоритъма за двоично търсене. Липсващите
+			части от фрагментите са обозначени с ______. Попълнете липсващите части така, че функцията
+			или съответно методът да са коректно дефинирани спрямо това описание.
+			*/
+
+			bool member(int x, int arr[], int size)
+			{
+				if (size == 0)
+					return false;
+				int mid = size / 2;
+				int midElement = arr[mid];
+				bool isMember = (midElement) == x ||
+					(midElement < x && member(x, (arr + (mid + 1)), mid)) ||
+					(member(x, arr, mid));
+				return isMember;
+			}
+
+			void testA()
+			{
+				int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+				int size = 14;
+
+				// Positive tests
+				vector<int> positiveTests = { 1, 14, 7, 8, 9, 6, 3, 11 };
+				for (auto& positiveTest : positiveTests)
+					cout << "Is " << positiveTest << " member of the array: " << (member(positiveTest, arr, 14) ? "yes" : "no") << endl;
+
+				// Negative tests
+				vector<int> negativeTests = { 0, 42};
+				for (auto& negativeTest : negativeTests)
+					cout << "Is " << negativeTest << " member of the array: " << (member(negativeTest, arr, 14) ? "yes" : "no") << endl;
+			}
+		}
+	}
+	
+	namespace task2
+	{
+
+	}
+
+}
+
 int main()
 {	
 	//testStack();
@@ -973,7 +1024,9 @@ int main()
 	//July2016::task2::testTask2();
 
 	//September2016::task1::testTask1();
-	September2016::task2::testTask2();
+	//September2016::task2::testTask2();
+
+	September2015::task1::A::testA();
 
 	return 0;
 }
