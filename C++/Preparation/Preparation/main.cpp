@@ -989,6 +989,80 @@ namespace September2015
 			}
 		}
 
+		namespace B
+		{
+			/*
+			Нека е дефиниран масив nums , в който се съдържат N целочислени стойности.
+			Попълнете празните полета, за да бъде коректна програмната реализация на алгоритъма за
+			сортиране във възходящ ред чрез пряка селекция (selection sort).
+			*/
+
+			void selectionSort(int arr[], int n)
+			{
+				for (int i = 0; i < n; ++i) {
+					
+					// Find the index of the minimum element
+					int min = i;					
+					for (int j = i + 1; j < n; j++) {
+						if (arr[j] < arr[min])
+							min = j;
+					}
+
+					// Swap when required
+					if (min != i) {
+						int x = arr[i];
+						arr[i] = arr[min];
+						arr[min] = x;
+					}
+				}
+			}
+
+			void testInput(int arr[], int size)
+			{
+				cout << "Before: ";
+				printPArr(arr, size);
+
+				// Selection Sort it
+				selectionSort(arr, size);
+
+				cout << "After:  ";
+				printPArr(arr, size);
+			}
+
+			void testB()
+			{
+				int arr1[] = { 3, 5, 4, 1, 7, 10, 9, 2, 6, 8 };
+				int size1 = 10;
+				testInput(arr1, size1);
+				cout << endl;
+
+				int arr2[] = { 3, 7, 10, 9, 2, 6, 8 };
+				int size2 = 7;
+				testInput(arr2, size2);
+				cout << endl;
+
+				int arr3[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+				int size3 = 10;
+				testInput(arr3, size3);
+				cout << endl;
+
+				int arr4[] = { 11, 3, 5, 4, 14, 13, 1, 7, 10, 9, 12, 2, 6, 8, 15 };
+				int size4 = 15;
+				testInput(arr4, size4);
+				cout << endl;
+
+				int arr5[] = { 3 };
+				int size5 = 1;
+				testInput(arr5, size5);
+				cout << endl;
+
+				int arr6[] = { 5, 3 };
+				int size6 = 2;
+				testInput(arr6, size6);
+				cout << endl;
+			}
+		}
+
 		namespace C
 		{
 			/*
