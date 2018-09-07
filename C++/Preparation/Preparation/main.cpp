@@ -1545,8 +1545,159 @@ namespace July2014
 
 	namespace task2
 	{
+		/*
+		Дадена е квадратна матрица от цели числа с размери 10x10, която описва лабиринт. Стойност 0 в
+		дадена клетка означава „стена“, а стойност 1 означа „проходима клетка“. Даден е символен низ,
+		съдържащ само буквите E, W, N и S, които указват едностъпкови придвижвания в съответните
+		географски посоки: N – нагоре, E – надясно, S – надолу, W – наляво.
+		Да се напише функция walk, която получава матрица и символен низ от вида, определен по-горе и
+		проверява дали символният низ задава валиден път започващ от някоя проходима клетка на
+		лабиринта, състоящ се само от проходими клетки и завършващ в долния десен ъгъл на лабиринта.
+		Функцията да връща булева стойност – истина, ако такава клетка има и даденият низ задава
+		валиден път и лъжа в противен случай.
+		*/
+
+		void customFillMap(int** map, int N)
+		{
+			map[0][0] = 1;
+			map[0][1] = 0;
+			map[0][2] = 0;
+
+			map[1][0] = 1;
+			map[1][1] = 1;
+			map[1][2] = 0;
+
+			map[2][0] = 0;
+			map[2][1] = 1;
+			map[2][2] = 1;
+		}
+
+		// If with dynamic dimentions this and the walk methods should take them into consideration.
+		bool checkDirection(int** map, int i, int j)
+		{
+			if (i < 0 || j < 0 || i > 2 || j > 2) { // Check bounds
+				return false;
+			}
+
+			return map[i][j] ? true : false;
+		}
+
+		// Always starts walking form (0, 0).
+		bool walk1(int** map, const char* route, int startI = 0, int startJ = 0)
+		{
+			if (!map[startI][startJ]) {
+				return false;
+			}
+
+			if (!strIsEmpty(route)) {
+				return false;
+			}
+
+			bool canContinue = true;
+			int i = startI, j = startJ;
+			char direction;
+			while (!strIsEmpty(route) && canContinue) {
+				direction = *route;
+
+				switch (direction)
+				{
+				case 'N':
+					canContinue = checkDirection(map, --i, j);
+					break;
+				case 'S':
+					canContinue = checkDirection(map, ++i, j);
+					break;
+				case 'E':
+					canContinue = checkDirection(map, i, ++j);
+					break;
+				case 'W':
+					canContinue = checkDirection(map, i, --j);
+					break;
+				default:
+					break;
+				}
+
+				route++;
+			}
+
+			return (i == 2) && (j == 2);
+		}
+
+		vector<pair<int, int>> findStartingPoints(int** map)
+		{
+			vector<pair<int, int>> startingPoints;
+
+			for (int i = 0; i < 3; ++i) {
+				for (int j = 0; j < 3; ++j) {
+					if (map[i][j]) {
+						startingPoints.push_back(pair<int, int>(i, j));
+					}
+				}
+			}
+
+			return startingPoints;
+		}
+
+		bool walk2(int** map, const char* route)
+		{
+			vector<pair<int, int>> startingPoints = findStartingPoints(map);
+			bool canReachEndPointFromAnyLoc = false;
+			for (auto& startingPoint : startingPoints) {
+				cout << "Check route: " << route << " from starting point (" << startingPoint.first << ", " << startingPoint.second << ")" << endl;
+				canReachEndPointFromAnyLoc = walk1(map, route, startingPoint.first, startingPoint.second);
+				cout << "Route : " << route;
+				if (canReachEndPointFromAnyLoc) {
+					cout << " can";
+				}
+				else {
+					cout << " can't";
+				}
+				cout << " pass the maze staring from (" << startingPoint.first << ", " << startingPoint.second << ")" << endl;
+				cout << "====================================================================" << endl;
+			}
+
+			return canReachEndPointFromAnyLoc;
+		}
+
+
 		void testTask2()
 		{
+			const int N = 3;
+			int** map = new int*[N];
+			for (int i = 0; i < N; ++i) {
+				map[i] = new int[N];
+			}
+
+			customFillMap(map, N);
+
+			vector<const char*> routes;
+			routes.emplace_back("SESE");
+			routes.emplace_back("SEEE");
+			routes.emplace_back("SSEE");
+			
+			bool canPassMaze(false);
+			for (auto& route : routes) {
+				cout << "Check route: " << route << " from starting point (0, 0)" << endl;
+				canPassMaze = walk1(map, route);
+				
+				cout << "Route : " << route;
+				if (canPassMaze) {
+					cout << " can";
+				}
+				else {
+					cout << " can't";
+				}
+				cout << " pass the maze!" << endl;
+				cout << "====================================================================" << endl;
+			}
+
+			cout << endl;
+
+			for (auto& route : routes) {
+				walk2(map, route);
+				cout << "--------------------------------------------------------------------" << endl;
+			}
+
 		}
 	}
 }
@@ -1592,7 +1743,8 @@ int main()
 	//September2014::task1::testTask1();
 	//September2014::task2::testTask2();
 
-	July2014::task1::testTask1();
+	//July2014::task1::testTask1();
+	July2014::task2::testTask2();
 
 	return 0;
 }

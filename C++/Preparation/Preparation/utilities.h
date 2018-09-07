@@ -52,6 +52,12 @@ void printMatrix(T** matrix, int m, int n)
 	}
 
 }
+
+bool strIsEmpty(const char* str)
+{
+	return ((str == nullptr) || (*str == '\0'));
+}
+
 // Merges the two halves arr[left..mid] and arr[mid+1..right] of arr[]
 void merge(int* arr, const int& left, const int& right, const int& mid)
 {
