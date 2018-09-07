@@ -1439,6 +1439,118 @@ namespace September2014
 	}
 }
 
+namespace July2014
+{
+	namespace task1
+	{
+		/*
+		Даден е символен низ с дължина n, съдържащ само малки латински букви. Напишете функция
+		void check(const char* str), която проверява дали съществува позиция в низа, такава че, ако
+		се започне четене от тази позиция и четенето продължи до края и след това (при необходимост)
+		циклично се прехвърли в началото на низа, може да се прочете палиндром с дължина равна на n
+		(дължината на входния низ). Ако такава позиция съществува, функцията да извежда на екрана
+		нейния номер и намереният палиндром, ограден в кръгли скоби. Ако такава позиция не
+		съществува, функцията да извежда на екрана текста "NO".
+		Примери:
+		Вход: orrobborrow Изход: 5 (borroworrob)
+		Вход: borroworrob Изход: 0 (borroworrob)
+		Вход: booo Изход: NO
+		*/
+
+		bool isPalindrome(char* first, char* last)
+		{
+			if (first == nullptr) { // If string is empty - it can't be palindrome
+				return false;
+			}
+			else if (first >= last) { // If we reached the middle of the string we have palindrome
+				return true;
+			}
+			else if (*first == *last) { // If current first and last chars are the same continue with the check
+				return isPalindrome(++first, --last);
+			}
+			else { // Otherwise we don't have palindrome
+				return false;
+			}
+		}
+
+		char* createNewSubstring(char* first, char* last, char* orig, int total)
+		{
+			// Allocate memory for the substring
+			char* subString = new char[total + 1];
+
+			// Copy from first char to the end
+			size_t i = 0;
+			while (first != last) {
+				subString[i++] = *first++;
+				total--;
+			}
+
+			// If we still have capacity, copy from the original string as well
+			size_t start = 0;
+			while (total--) {
+				subString[i++] = orig[start++];
+			}
+			
+			// Remember the terminating 0
+			subString[i] = '\0';
+
+			return subString;
+		}
+
+		void check(const char* str)
+		{
+			cout << "Input string to test for palindrome: " << str << endl;
+
+			size_t len = strlen(str);
+			char* copyStr = const_cast<char*>(str);
+			if (isPalindrome(copyStr, copyStr + len - 1)) { // If the given string is already a palindrom just finish
+				cout << "Position: " << 0 << " and string: (" << copyStr << ")" << endl << endl;
+				return;
+			}
+
+			// Otherwise create a new string starting from the char at index 1 (including the first element as last, etc...)
+			size_t pos = 1;
+			char* temp = nullptr;
+			bool strIsPalindrome = false;
+			while (!strIsPalindrome && pos < len && (temp = createNewSubstring(copyStr + pos, copyStr + len, copyStr, len))) {
+				strIsPalindrome = isPalindrome(temp, temp + len - 1); // Check if the newly created string is palindrome
+				pos++;
+				cout << "Created string: " << temp << " is not a palindrome" << endl;
+			}
+
+			// Check the result
+			if (strIsPalindrome) {
+				// --pos because we started the count from 1... which means it is with one less in the orignal string
+				cout << "Position: " << --pos << " and string: (" << temp << ")" << endl << endl;
+			}
+			else {
+				cout << "NO" << endl << endl;
+			}
+
+		}
+
+		void testTask1()
+		{
+			/*char* test = "borroworrob";
+			cout << isPalindrome(test, test + strlen(test) - 1) << endl;*/
+
+			check("orrobborrow");
+			check("borroworrob");
+			check("booo");
+			check("aba");
+			check("tttaaattt");
+			check("poop");
+		}
+	}
+
+	namespace task2
+	{
+		void testTask2()
+		{
+		}
+	}
+}
+
 int main()
 {	
 	//testStack();
@@ -1478,7 +1590,9 @@ int main()
 	//July2015::task2::testTask2();
 
 	//September2014::task1::testTask1();
-	September2014::task2::testTask2();
+	//September2014::task2::testTask2();
+
+	July2014::task1::testTask1();
 
 	return 0;
 }
