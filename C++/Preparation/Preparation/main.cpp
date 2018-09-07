@@ -1334,6 +1334,45 @@ namespace July2015
 		}
 	}
 }
+
+namespace September2014
+{
+	namespace task1
+	{
+		/*
+		Дадени са координатите на N-точки, които са записани в масивите float x[N], y[N]
+		по следния начин: координатите на i-тата точка са (x[i], y[i]).
+		Напишете функция square, която получава като аргументи броя на точките N и два
+		масива X и Y съдържащи координатите им и извежда на екрана координатите на
+		центъра и страната на най-малкия квадрат със страни успоредни на координатните оси,
+		който обхваща всички дадени точки (всички дадени точки са във вътрешността му или
+		на страните му).
+		*/
+
+		void square(float x[], float y[], int n)
+		{
+			int i = n / 2;
+
+			cout << x[i] << y[i] << endl;
+			
+		}
+
+		void testTask1()
+		{
+			// Too many uncertanties... Don't bother.
+			const int N = 4;
+			float x[N], y[N];
+
+			for (int i = 0; i < N; i++) {
+				x[i] = (float)i;
+				y[i] = (float)i;
+			}
+
+			square(x, y, N);
+		}
+	}
+}
+
 int main()
 {	
 	//testStack();
@@ -1370,7 +1409,9 @@ int main()
 	//September2015::task2::testTask2();
 
 	//July2015::task1::testTask1();
-	July2015::task2::testTask2();
+	//July2015::task2::testTask2();
+
+	September2014::task1::testTask1();
 
 	return 0;
 }
