@@ -1245,8 +1245,92 @@ namespace July2015
 
 	namespace task2
 	{
+		/*
+		Да се обозначи явно на кой от двата езика е решавана задачата. При решението на задачата да не
+		се използват библиотеки за работа със структури от данни.
+		а) Да се дефинира подходяща индуктивна (рекурсивна) структура от данни, позволяваща
+		представянето в паметта на програмата на възел на дърво от цели числа ( int ), за което всеки връх
+		може да има произволен брой наследници (0, 1 или повече).
+		б) Да се дефинира рекурсивна функция (или статичен метод)
+		[булев тип] member ([подходящ тип]root, int x)
+		чиято стойност е истина точно тогава, когато в дървото с корен, представен от параметъра root ,
+		съществува възел със стойност x .
+		в) Да се дефинира рекурсивна функция (или статичен метод)
+		void filterOdd ([подходящ тип] root)
+		Функцията да премахва (чрез мутация) всяко поддърво t’ на дървото с корен, представен от
+		параметъра root , за което е изпълнено, че коренът на t’ е със стойност нечетно число. На
+		следната фигура е показано примерно дърво преди и след изпъпнението на операцията
+		filterOdd .
+		*/
+
+		struct Node
+		{
+			Node(const int& data) : data_(data) {}
+
+			int data_;
+			vector<Node*> children;
+		};
+
+		Node* buildSimpleTree()
+		{
+			Node* root = new Node(8);
+			root->children.emplace_back(new Node(2));
+			root->children.emplace_back(new Node(3));
+			root->children.emplace_back(new Node(12));
+
+			root->children[1]->children.emplace_back(new Node(4));
+			root->children[1]->children.emplace_back(new Node(5));
+			root->children[1]->children.emplace_back(new Node(6));
+
+			root->children[1]->children[1]->children.emplace_back(new Node(7));
+
+			return root;
+		}
+
+		Node* member(Node* root, int x)
+		{
+			if (root->data_ == x)
+				return root;
+			Node* element = nullptr;
+			for (auto& child : root->children) {
+				element = member(child, x);
+				if (element) {
+					break;
+				}
+			}
+			return element;
+		}
+
+		void freeNode(Node* node)
+		{
+			delete node;
+			node = nullptr;
+		}
+
+		void filterOdd(Node* root)
+		{
+			if (root->data_ % 2)
+				freeNode(root);
+			for (auto& child : root->children)
+				filterOdd(child);
+		}
+
 		void testTask2()
 		{
+			Node* root = buildSimpleTree();
+			
+			vector<int> positiveTests = { 8, 2, 5, 3, 4, 12 };
+			for (auto& positiveTest : positiveTests) 
+				cout << "Is " << positiveTest << " element of the tree: " << (member(root, positiveTest) ? "yes" : "no") << endl;
+
+			vector<int> negativeTests = { 7, 42, 1 };
+			for (auto& negativeTest : negativeTests)
+				cout << "Is " << negativeTest << " element of the tree: " << (member(root, negativeTest) ? "yes" : "no") << endl;
+
+			filterOdd(root);
+
+			for (auto& positiveTest : positiveTests)
+				cout << "Is " << positiveTest << " element of the tree: " << (member(root, positiveTest) ? "yes" : "no") << endl;
 		}
 	}
 }
@@ -1285,8 +1369,8 @@ int main()
 	//September2015::task1::D::testD();
 	//September2015::task2::testTask2();
 
-	July2015::task1::testTask1();
-
+	//July2015::task1::testTask1();
+	July2015::task2::testTask2();
 
 	return 0;
 }
