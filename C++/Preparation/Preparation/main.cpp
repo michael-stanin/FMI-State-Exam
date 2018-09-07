@@ -10,6 +10,7 @@
 #include "utilities.h"
 #include <string>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -1371,6 +1372,71 @@ namespace September2014
 			square(x, y, N);
 		}
 	}
+
+	namespace task2
+	{
+		void apply(stack<char>& functions, int(*f)(int), int(*g)(int), int& startDigit)
+		{
+			char currentFunction;
+			while (!functions.empty()) {
+				currentFunction = functions.top();
+
+				if (currentFunction == 'g') {
+					startDigit = g(startDigit);
+				}
+				else if (currentFunction == 'f') {
+					startDigit = f(startDigit);
+				}
+
+				functions.pop();
+			}
+		}
+
+		void parse(const char* expr, int(*f)(int), int(*g)(int))
+		{
+			int startDigit = 0;
+			stack<char> functions;
+			while (expr != '\0') {
+				char c = *expr;
+
+				if (isdigit(c)) {
+					startDigit = atoi(&c);
+					break;
+				}
+
+				switch (c) {
+				case 'g':
+				case 'f':
+					functions.push(c);
+					break;
+				default:
+					break;
+				}
+
+				expr++;
+			}
+
+			apply(functions, f, g, startDigit);
+			cout << "Result is: " << startDigit << endl;
+		}
+
+		int mult(int x)
+		{
+			return x * 10;
+		}
+
+		int incr(int x)
+		{
+			return x + 1;
+		}
+
+		void testTask2()
+		{
+			parse("g(f(g(g(5))))", mult, incr);
+
+			parse("3", nullptr, nullptr);
+		}
+	}
 }
 
 int main()
@@ -1411,7 +1477,8 @@ int main()
 	//July2015::task1::testTask1();
 	//July2015::task2::testTask2();
 
-	September2014::task1::testTask1();
+	//September2014::task1::testTask1();
+	September2014::task2::testTask2();
 
 	return 0;
 }
