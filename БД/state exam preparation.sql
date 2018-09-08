@@ -136,9 +136,6 @@ WHERE exists(SELECT *
 ------- Task 4 -------
 /* заявката, която извежда име на класа и брой на потъналите в битка кораби за съответния клас, за тези класове с повече от 5 кораба. */
 
-/*  */
-
-
 SELECT c.class, name
 FROM CLASSES c JOIN SHIPS s ON c.CLASS=s.CLASS
 ORDER BY CLASS;
@@ -183,3 +180,65 @@ WHERE result='sunk' AND class IN (SELECT c.class
 								  GROUP BY c.class
 								  HAVING COUNT(name)>5)
 GROUP BY class;
+
+
+
+/* ------- July 2017 ------- */
+
+------- Task 1 -------
+/* заявката да изведе за всяко студио името на студиото, заглавието и годината на филма, излязъл последно на екран за това студио */
+
+use movies;
+
+SELECT *
+FROM STUDIO;
+
+SELECT name, title, year
+FROM STUDIO s JOIN MOVIE m ON s.name=m.studioname
+ORDER BY name;
+
+SELECT name, title, year
+FROM STUDIO s JOIN MOVIE m ON s.name=m.studioname
+WHERE year >= all (SELECT year FROM MOVIE m1 WHERE s.NAME=m1.studioname);
+
+
+-- Suggested answer below --
+SELECT studioname, title, year
+FROM movie m
+WHERE year = (SELECT max(year)
+			FROM movie
+			WHERE studioname=m.STUDIONAME);
+
+			
+------- Task 2 -------
+/* заявката да изведе име на продуцент и обща дължина на продуцираните от него филми, за тези продуценти, които имат поне един филм преди 1980 г. */
+
+SELECT *
+FROM MOVIEEXEC;
+
+SELECT title, LENGTH
+FROM MOVIE;
+
+SELECT title, year, PRODUCERC#
+FROM MOVIE
+WHERE year < 1980;
+
+SELECT NAME, SUM(m.LENGTH)
+FROM MOVIEEXEC me JOIN (SELECT LENGTH, PRODUCERC#
+					    FROM MOVIE
+						WHERE year < 1980) m ON me.CERT#=m.PRODUCERC#
+GROUP BY NAME;
+
+SELECT NAME, SUM(m.LENGTH)
+FROM MOVIEEXEC me JOIN MOVIE m ON me.CERT#=m.PRODUCERC#
+WHERE exists (SELECT LENGTH, PRODUCERC#
+			  FROM MOVIE
+			  WHERE year < 1980 AND me.CERT#=PRODUCERC#)
+GROUP BY NAME;
+
+
+-- Suggested answer below --
+SELECT name, SUM(LENGTH)
+FROM MOVIEEXEC JOIN MOVIE ON PRODUCERC#=CERT#
+GROUP BY name
+HAVING min(year) < 1980;
