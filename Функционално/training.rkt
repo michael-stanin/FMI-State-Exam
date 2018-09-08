@@ -56,7 +56,7 @@
 ;(mlength (mappend (list 1 2 3 4)(list 5 6 7 8)))
 
 ; *******************************
-; September 2017
+; September 2016
 ; *******************************
 (define (filterByElement x m)
   (filter (lambda (y) (search x y)) m))
@@ -80,7 +80,7 @@
 ; *******************************
 
 ; *******************************
-; September 2016
+; July 2016
 ; *******************************
 
 ; The line below crashes DrRacket...
@@ -121,3 +121,18 @@
 ;((lambda (x) (filter even? x)) '(1 2 3 4))
 
 ; *******************************
+
+; TODOs
+; Implement reduce
+
+
+(define (bubble-up L)  
+   (if (null? (cdr L)) 
+       L   
+       (if (< (car L) (cadr L))  
+           (cons (car L) (bubble-up (cdr L)))  
+           (cons (cadr L) (bubble-up (cons (car L) (cddr L)))))))
+
+(define (bubble-sort N L)   
+  (cond ((= N 1) (bubble-up L))  
+        (else (bubble-sort (- N 1) (bubble-up L)))))
