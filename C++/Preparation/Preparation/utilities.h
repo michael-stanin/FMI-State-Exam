@@ -163,3 +163,24 @@ void bubbleSort(T* arr, int len, IComparator<T>& cmp)
 		}
 	}
 }
+
+template<class T>
+void selectionSort(T* arr, int len, IComparator<T>& cmp)
+{
+	for (int i = 0; i < len; ++i) {
+
+		// Find the index of the minimum element
+		T min = i;
+		for (int j = i + 1; j < len; j++) {
+			if (cmp(arr[j], arr[min]))
+				min = j;
+		}
+
+		// Swap when required
+		if (min != i) {
+			T x = arr[i];
+			arr[i] = arr[min];
+			arr[min] = x;
+		}
+	}
+}
