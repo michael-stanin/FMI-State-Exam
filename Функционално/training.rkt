@@ -76,7 +76,7 @@
 
 ; The line below crashes DrRacket...
 ;(apply + (map (lambda (l) (apply max l)) '((5 -2) (1 9) (6 -8))))
-
+;>20
 ; *******************************
 
 ; *******************************
@@ -85,10 +85,14 @@
 
 ; The line below crashes DrRacket...
 ;( map ( lambda (x) (append (list x) x) ) '( (1 2) (3 4) ) )
+;>(((1 2) 1 2) ((3 4) 3 4))
+
 ; The line below crashes DrRacket...
 ;(map (lambda (f) (map (lambda (x) (f 5 x)) '(1 2 3))) (list + - *))
+;>((6 7 8) (4 3 2) (5 10 15))
 
 ;( apply list (list (quote +) (quote 5) 8) )
+;>(+ 5 8)
 ; *******************************
 
 ; *******************************
@@ -98,12 +102,15 @@
 ;(map
 ;    (car ( list (lambda (couple) (+ (car couple) (cdr couple)))))
 ;    (apply append ' (((1 . 2)) ((3 . 4)))))
+;>(3 7)
 
 ; The line below crashes DrRacket...
 ;(map (lambda (x) (cons x (list x)))'(1 2 3 4 5))
+;> ((1 1) (2 2) (3 3) (4 4) (5 5))
+
 ; The line below crashes DrRacket...
 ;(map (lambda (pred) (filter pred '(1 2 3 4 5))) (list even? odd?))
-
+;>((2 4) (1 3 5))
 ; *******************************
 
 
@@ -117,9 +124,10 @@
         ((< (car l1) (car l2)) (cons (car l1) (merge (cdr l1) l2)))
         (else (cons (car l2) (merge l1 (cdr l2))))))
 ;(merge '(1 3 5 7) '(2 2 6 10))
+;>(1 2 2 3 5 6 7 10)
 
 ;((lambda (x) (filter even? x)) '(1 2 3 4))
-
+;>(2 4)
 ; *******************************
 
 ; TODOs
