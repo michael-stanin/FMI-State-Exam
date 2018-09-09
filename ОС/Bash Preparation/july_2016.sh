@@ -27,7 +27,7 @@ while cat file | grep $a1 # concatenate(print) the contents of file with CR(with
                           #|- means to use the output of the previous command as input for the next one, i.e. the printed text from the file
 # prints every line containing 'c' with new line after each one:
 #"8 bc
-#13 cd
+#4 cd
 #"
 do echo $a $a2 # prints 5 and 'd' 
     #"5 d
